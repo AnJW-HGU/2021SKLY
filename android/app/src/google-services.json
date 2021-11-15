@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054021072671",
+    "project_id": "skly-715e2",
+    "storage_bucket": "skly-715e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054021072671:android:c1e5072aa4d2cb9721622a",
+        "android_client_info": {
+          "package_name": "com.example.skly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054021072671-tb7filb91sfocdjaqnh1a25ca7nrn5up.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRaOnSoAYBK2K30npj3BvDxVFg4b5_63c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054021072671-tb7filb91sfocdjaqnh1a25ca7nrn5up.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
