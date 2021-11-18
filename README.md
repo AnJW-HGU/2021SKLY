@@ -1,6 +1,22 @@
-# skly
+# 시킬래요? (SiKilLaeYo?) 
 
-2021MAD Team Project
+2021 Mobile App Development in Handong Global University
+
+
+## What does this project do?
+These days, when delivery fees are rising rapidly, there is a culture of sharing delivery fees by ordering delivery together.<br>
+This application _**creates a connection**_ for users who order delivery food.
+
+<!--
+## Why is this project useful?
+
+## How do I get started?
+
+## Where can I get more help, if I need it?
+Send email to us.
+> 21700340@handong.edu
+> 22000404@handong.edu
+-->
 
 ## Getting Started
 
