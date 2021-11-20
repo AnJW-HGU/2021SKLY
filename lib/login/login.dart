@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   });
                 });
-                Get.to(() => ChatList());
+                Get.to(() => ChatListPage());
               } on FirebaseAuthException catch (e) {}
             }),
           ],
