@@ -6,7 +6,6 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
-import 'package:skly/post/addPost.dart';
 import '../chat/chatList.dart';
 
 class LoginPage extends StatefulWidget {
@@ -42,13 +41,13 @@ class _LoginPageState extends State<LoginPage> {
               try {
                 signInWithGoogle().then((value) {
                   FirebaseFirestore.instance
-                      .collection('user')
+                      .collection('User')
                       .where('uid', isEqualTo: value.user!.uid)
                       .get()
                       .then((users) {
                     if (users.size == 0) {
                       FirebaseFirestore.instance
-                          .collection('user')
+                          .collection('User')
                           .doc(value.user!.uid)
                           .set(<String, dynamic>{
                         'email': value.user!.email,
