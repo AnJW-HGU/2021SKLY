@@ -5,12 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Profile extends StatefulWidget {
+class MyProfilePage extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _MyProfilePageState createState() => _MyProfilePageState();
 }
 
-class _ProfileState extends State<Profile> {
+class _MyProfilePageState extends State<MyProfilePage> {
   bool isEditing = false;
   TextEditingController? _controller = TextEditingController(
       text: FirebaseAuth.instance.currentUser!.displayName);

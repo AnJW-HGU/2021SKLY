@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class chatRoom extends StatefulWidget {
-  const chatRoom({Key? key}) : super(key: key);
+class ChatRoomPage extends StatefulWidget {
+  const ChatRoomPage({Key? key}) : super(key: key);
 
   @override
-  _chatRoomState createState() => _chatRoomState();
+  _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-class _chatRoomState extends State<chatRoom> {
+class _ChatRoomPageState extends State<ChatRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Container();

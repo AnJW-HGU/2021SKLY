@@ -17,7 +17,7 @@ class _ChatListState extends State<ChatList> {
         body: ListView(children: [
       ElevatedButton(
           onPressed: () {
-            Get.to(() => Profile());
+            Get.to(() => MyProfilePage());
           },
           child: Text('Go to Profile!'))
       /*GetBuilder<Controller>(builder: (_) {
