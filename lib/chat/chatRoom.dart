@@ -52,7 +52,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await widget.addMessage(_controller.text);
+                      //await widget.addMessage(_controller.text);
                       _controller.clear();
                     }
                   },
@@ -71,7 +71,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         SizedBox(
           height: 8,
         ),
-        for (var message in widget.messages)
+        /*for (var message in widget.messages)
           Row(children: [
             Expanded(
               child: Paragraph('${message.name}: ${message.message}\n '
@@ -84,7 +84,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     },
                     icon: Icon(Icons.delete_outline))
                 : Container(),
-          ]),
+          ]),*/
         SizedBox(
           height: 8,
         ),
