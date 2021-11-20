@@ -5,14 +5,14 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class ChatRoom extends StatefulWidget {
-  const ChatRoom({Key? key}) : super(key: key);
+class ChatRoomPage extends StatefulWidget {
+  const ChatRoomPage({Key? key}) : super(key: key);
 
   @override
-  _ChatRoomState createState() => _ChatRoomState();
+  _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-class _ChatRoomState extends State<ChatRoom> {
+class _ChatRoomPageState extends State<ChatRoomPage> {
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
 

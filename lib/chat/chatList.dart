@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:skly/login/login.dart';
 import 'package:skly/profile/myProfile.dart';
 
-class ChatList extends StatefulWidget {
-  const ChatList({Key? key}) : super(key: key);
+class ChatListPage extends StatefulWidget {
+  const ChatListPage({Key? key}) : super(key: key);
 
   @override
-  _ChatListState createState() => _ChatListState();
+  _ChatListPageState createState() => _ChatListPageState();
 }
 
-class _ChatListState extends State<ChatList> {
+class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
