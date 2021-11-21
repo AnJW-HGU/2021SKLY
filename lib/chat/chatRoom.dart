@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:skly/controller/chatRoomController.dart';
+import 'package:get/get.dart';
+import 'package:skly/widget/messageTile.dart';
 
 class ChatRoomPage extends StatefulWidget {
   const ChatRoomPage({Key? key}) : super(key: key);
@@ -26,8 +29,28 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('TestChatRoom')),
+        backgroundColor: colorScheme.primary,
+      ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        GetBuilder<ChatRoomController>(
+            init: ChatRoomController(),
+            builder: (_) {
+              return Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemCount: _.messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return MessageTile(_.messages[index]);
+                  },
+                ),
+              );
+            }),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -52,7 +75,18 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      //await widget.addMessage(_controller.text);
+                      print('CurrentTime:' +
+                          FieldValue.serverTimestamp().toString());
+                      await FirebaseFirestore.instance
+                          .collection('TestChatRoom')
+                          .add({
+                        'content': _controller.text,
+                        'name': FirebaseAuth.instance.currentUser!.displayName,
+                        'sendTime': FieldValue.serverTimestamp(),
+                        'type': 'message',
+                        'uid': FirebaseAuth.instance.currentUser!.uid,
+                        'photo': FirebaseAuth.instance.currentUser!.photoURL
+                      });
                       _controller.clear();
                     }
                   },
@@ -71,6 +105,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         SizedBox(
           height: 8,
         ),
+
         /*for (var message in widget.messages)
           Row(children: [
             Expanded(
