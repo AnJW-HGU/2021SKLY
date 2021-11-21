@@ -58,17 +58,22 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Leave a message',
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: TextFormField(
+                      minLines: 1,
+                      maxLines: 3,
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        hintText: 'Leave a message',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter your message to continue';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter your message to continue';
-                      }
-                      return null;
-                    },
                   ),
                 ),
                 SizedBox(width: 8),
