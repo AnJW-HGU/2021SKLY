@@ -2,9 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skly/chat/chatRoom.dart';
+import 'package:skly/chat/chatList.dart';
 import 'package:skly/controller/navigationController.dart';
-import 'package:skly/post/addPost.dart';
 import 'package:skly/post/board.dart';
 import 'package:skly/profile/myProfile.dart';
 
@@ -17,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final pageList = [BoardPage(), ChatRoomPage(), MyProfilePage()];
+    final pageList = [BoardPage(), ChatListPage(), MyProfilePage()];
     return GetBuilder<NavigationController>(builder: (_) {
       return Scaffold(
         body: PageTransitionSwitcher(
@@ -29,16 +28,6 @@ class HomePage extends StatelessWidget {
             );
           },
           child: pageList[_navController.currentIndex],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.to(AddPostPage());
-          },
-          child: Icon(
-            Icons.add_rounded,
-            color: Colors.black,
-          ),
-          backgroundColor: colorScheme.secondary,
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

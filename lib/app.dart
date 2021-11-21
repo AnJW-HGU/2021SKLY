@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:skly/controller/loginController.dart';
 import 'package:skly/home.dart';
 import 'package:skly/login/login.dart';
 import 'package:get/get.dart';
 import 'package:skly/src/sklyTheme.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+
+  LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'SKLY',
       theme: SKLYTheme.lightThemeData,
-      home: HomePage(),
+      home: GetBuilder<LoginController>(
+        builder: (_) {
+          if (_loginController.loginState == LoginState.loggedOut) {
+            return LoginPage();
+          }
+          else {
+            return HomePage();
+          }
+        },
+      ),
     );
   }
 }

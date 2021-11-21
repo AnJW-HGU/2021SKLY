@@ -65,7 +65,7 @@ class SKLYTheme {
       error: Color(0xffb00020),
       onPrimary: Colors.white,
       onSecondary: Colors.black,
-      onSurface: Colors.black,
+      onSurface: Color.fromRGBO(0, 0, 0, 0.12),
       onBackground: Colors.black,
       onError: Colors.white,
       brightness: Brightness.light);
