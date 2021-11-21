@@ -36,6 +36,21 @@ class Post {
       isClose: ds['isClose'],
     );
   }
+
+  factory Post.fromSnapshot(DocumentSnapshot ss) {
+    return Post(
+      id: ss.get('id'),
+      userId: ss.get('userId'),
+      store: ss.get('store'),
+      category: ss.get('category'),
+      content: ss.get('content'),
+      people: ss.get('people'),
+      place: ss.get('people'),
+      writeTime: ss.get('writeTime'),
+      isClose: ss.get('isClose'),
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
