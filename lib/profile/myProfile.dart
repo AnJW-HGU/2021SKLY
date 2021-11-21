@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skly/app.dart';
+import 'package:skly/controller/loginController.dart';
 
 class MyProfilePage extends StatefulWidget {
   @override
@@ -18,6 +20,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
     '${FirebaseAuth.instance.currentUser!.displayName}',
     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
   );
+
+  LoginController _loginController = Get.put(LoginController());
 
   /* Widget userInfo() {
     return StreamBuilder<DocumentSnapshot>(
@@ -38,17 +42,22 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Profile')),
+        title: Text(
+          "프로필",
+          style: TextStyle(fontSize: 15, color: colorScheme.surface),
+        ),
+        backgroundColor: colorScheme.primary,
         actions: [
           IconButton(
-              onPressed: () async {
-                FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
-                Navigator.pop(context);
+              onPressed: () {
+                _loginController.signOutWithGoogle();
               },
-              icon: Icon(Icons.exit_to_app))
+              icon: Icon(Icons.exit_to_app, color: colorScheme.surface,))
         ],
       ),
       body: SafeArea(

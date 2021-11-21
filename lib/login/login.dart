@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
@@ -21,8 +19,8 @@ class LoginPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             SizedBox(height: 12.0),
-            SignInButton(Buttons.Google, onPressed: () {
-              _loginController.signInWithGoogle();
+            SignInButton(Buttons.Google, onPressed: () async {
+              await _loginController.signInWithGoogle();
               _userController.setUser();
             }),
           ],

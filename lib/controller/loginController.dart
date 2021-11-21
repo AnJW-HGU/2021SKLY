@@ -26,4 +26,10 @@ class LoginController extends GetxController {
     UserRepository().setUser();
     update();
   }
+
+  Future<void> signOutWithGoogle() async {
+    FirebaseAuth.instance.signOut();
+    loginState = LoginState.loggedOut;
+    update();
+  }
 }

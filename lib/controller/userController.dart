@@ -10,7 +10,7 @@ class UserController extends GetxController {
   late UserModel.User user;
 
   void setUser() async {
-    user = UserRepository().getUser() as UserModel.User;
+    user = await UserRepository().getUser();
     update();
   }
 }

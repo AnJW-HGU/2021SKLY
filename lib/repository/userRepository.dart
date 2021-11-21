@@ -13,7 +13,7 @@ class UserRepository {
         id: doc['uid'],
         name: doc['name'],
         email: doc['email'],
-        joiningChat: doc['joiningChat']);
+        joiningChat: doc['joiningChat']?.cast<String>());
     return user;
   }
 
