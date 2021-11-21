@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skly/login/login.dart';
 import 'package:skly/profile/myProfile.dart';
 
 class ChatListPage extends StatefulWidget {
