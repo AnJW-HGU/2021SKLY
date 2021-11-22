@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:skly/model/post.dart';
+import 'package:skly/repository/postRepository.dart';
 
 class PostController extends GetxController {
   TimeOfDay closeTime =
@@ -9,7 +11,7 @@ class PostController extends GetxController {
       .hour, minute: DateTime
       .now()
       .minute);
-  int people = 100;
+  int people = 0;
   TextEditingController storeTextEditing = TextEditingController();
   TextEditingController contentTextEditing = TextEditingController();
 
@@ -26,28 +28,34 @@ class PostController extends GetxController {
     update();
   }
 
-  // void peoplePicker(BuildContext context) async {
-  //   NumberPicker(
-  //     initialValue: people,
-  //     minValue: 2,
-  //     maxValue: 100,
-  //     decimalPlaces: 1,
-  //     onChanged: (value) {
-  //       this.people = value;
-  //     }
-  //   ),
+  // void peoplePicker(BuildContext context) {
+  //   Material(
+  //     child: showMaterialNumberPicker(
+  //         context: context,
+  //         initialValue: people,
+  //         minValue: 2,
+  //         maxValue: 20,
+  //         step: 1,
+  //         onChanged: (value) {
+  //           this.people = value;
+  //         }
+  //     ),
+  //   );
+  //   this.isPickPeople = true;
   //   update();
   // }
 
-  void submitPost() {
+  bool submitPost() {
     if (this.storeTextEditing.text != null &&
         this.contentTextEditing.text != null &&
         this.isPickCloseTime &&
         this.isPickPeople) {
-      print('add Post 구현해야함');
+      // Post post = Post()
+      // PostRepository().setPost(post);
+      return true;
     }
     else {
-      print('snack bar로 unFill 알려주기');
+      return false;
     }
     update();
   }

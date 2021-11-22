@@ -5,7 +5,7 @@ class PostRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> setPost(Post post) async {
-    await _firestore.collection('Post').doc(post.id).set(post.toMap());
+    await _firestore.collection('Post').add(post.toMap());
   }
 
   Stream<List<Post>> getAllPosts() {
