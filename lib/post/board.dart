@@ -104,6 +104,7 @@ class BoardPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('dialog 띄우기');
+        _postDialog(context, post);
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -154,6 +155,7 @@ class BoardPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('dialog 띄우기');
+        _postDialog(context, post);
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -213,6 +215,78 @@ class BoardPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _postDialog(BuildContext context, Post post) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Get.defaultDialog(
+      title: '[${post.store!}]',
+      content: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('${post.place!}'),
+            SizedBox(height: 10,),
+            Text('${post.content!}'),
+            Text(
+              '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+              // style: TextStyle(color: colorScheme.primaryVariant),
+            ),
+            if (post.people == 100)
+              Text(
+                '없음',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+            if (post.people != 100)
+              Text(
+                '0/${post.people}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     Text(
+            //       '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+            //       // style: TextStyle(color: colorScheme.primaryVariant),
+            //     ),
+            //     Spacer(),
+            //     if (post.people == 100)
+            //       Text(
+            //         '없음',
+            //         // style: TextStyle(color: colorScheme.primaryVariant),
+            //       ),
+            //     if (post.people != 100)
+            //       Text(
+            //         '0/${post.people}',
+            //         // style: TextStyle(color: colorScheme.primaryVariant),
+            //       ),
+            //     // 참여자 수 받기 (수정)
+            //   ],
+            // ),
+            SizedBox(height: 15,),
+            Text('같이 배달하시겠습니까?'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            print('취소');
+            Get.back();
+          },
+          child: Text('취소'),
+        ),
+        TextButton(
+          onPressed: () {
+            print('확인');
+            Get.back();
+          },
+          child: Text('확인'),
+        ),
+      ]
     );
   }
 }

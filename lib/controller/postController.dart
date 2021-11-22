@@ -27,7 +27,7 @@ class PostController extends GetxController {
   }
 
   // void peoplePicker(BuildContext context) async {
-  //   people = await NumberPicker.decimal(
+  //   NumberPicker(
   //     initialValue: people,
   //     minValue: 2,
   //     maxValue: 100,
@@ -35,7 +35,7 @@ class PostController extends GetxController {
   //     onChanged: (value) {
   //       this.people = value;
   //     }
-  //   );
+  //   ),
   //   update();
   // }
 

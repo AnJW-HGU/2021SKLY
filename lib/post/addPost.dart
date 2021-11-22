@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skly/controller/postController.dart';
 
-class AddPostPage extends StatelessWidget {
+class AddPostPage extends StatefulWidget {
   const AddPostPage({Key? key}) : super(key: key);
 
+  @override
+  _AddPostPageState createState() => _AddPostPageState();
+}
+
+class _AddPostPageState extends State<AddPostPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -73,20 +78,23 @@ class AddPostPage extends StatelessWidget {
                 ),
                 // 주문시간 선택
                 GestureDetector(
-                  onTap: ()  {
+                  onTap: () {
                     _postController.closeTimePicker(context);
                   },
                   child: Container(
                     height: 40,
                     child: Center(
-                      child: Text(
-                        '주문 시간 선택',
-                        style:
-                            TextStyle(fontSize: 15, color: colorScheme.primary),
-                      ),
+                      child: _postController.isPickCloseTime
+                          ? Text('${_postController.closeTime}')
+                          : Text(
+                              '주문 시간 선택',
+                              style: TextStyle(
+                                  fontSize: 15, color: colorScheme.primary),
+                            ),
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: colorScheme.onSurface, width: 1),
+                      border:
+                          Border.all(color: colorScheme.onSurface, width: 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -109,7 +117,8 @@ class AddPostPage extends StatelessWidget {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: colorScheme.onSurface, width: 1),
+                      border:
+                          Border.all(color: colorScheme.onSurface, width: 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
