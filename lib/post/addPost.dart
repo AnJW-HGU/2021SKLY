@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skly/controller/postController.dart';
 
 class AddPostPage extends StatelessWidget {
   const AddPostPage({Key? key}) : super(key: key);
@@ -10,8 +11,7 @@ class AddPostPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    TextEditingController _storeTextEditing = TextEditingController();
-    TextEditingController _contentTextEditing = TextEditingController();
+    PostController _postController = Get.put(PostController());
 
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +25,7 @@ class AddPostPage extends StatelessWidget {
           icon: Icon(Icons.arrow_back_rounded),
           color: colorScheme.surface,
           onPressed: () {
+            _postController.submitPost();
             Get.back();
           },
         ),
@@ -51,7 +52,7 @@ class AddPostPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
-                  controller: _storeTextEditing,
+                  controller: _postController.storeTextEditing,
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide:
@@ -71,36 +72,46 @@ class AddPostPage extends StatelessWidget {
                   height: 30,
                 ),
                 // 주문시간 선택
-                Container(
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      '주문 시간 선택',
-                      style:
-                          TextStyle(fontSize: 15, color: colorScheme.primary),
+                GestureDetector(
+                  onTap: ()  {
+                    _postController.closeTimePicker(context);
+                  },
+                  child: Container(
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        '주문 시간 선택',
+                        style:
+                            TextStyle(fontSize: 15, color: colorScheme.primary),
+                      ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.onSurface, width: 1),
-                    borderRadius: BorderRadius.circular(5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorScheme.onSurface, width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 // 최대 인원 수 선택
-                Container(
-                  height: 40,
-                  child: Center(
-                    child: Text(
-                      '최대 인원 수 선택',
-                      style:
-                          TextStyle(fontSize: 15, color: colorScheme.primary),
+                GestureDetector(
+                  onTap: () {
+                    print('number picker 사용');
+                  },
+                  child: Container(
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        '최대 인원 수 선택',
+                        style:
+                            TextStyle(fontSize: 15, color: colorScheme.primary),
+                      ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.onSurface, width: 1),
-                    borderRadius: BorderRadius.circular(5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorScheme.onSurface, width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -108,7 +119,7 @@ class AddPostPage extends StatelessWidget {
                 ),
                 // 모집글 내용
                 TextFormField(
-                  controller: _contentTextEditing,
+                  controller: _postController.contentTextEditing,
                   maxLength: 50,
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(

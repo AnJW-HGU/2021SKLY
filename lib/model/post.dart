@@ -8,6 +8,7 @@ class Post {
   String? content;
   int? people;
   String? place;
+  Timestamp? closeTime;
   Timestamp? writeTime;
   bool? isClose;
 
@@ -19,6 +20,7 @@ class Post {
     this.content,
     this.people,
     this.place,
+    this.closeTime,
     this.writeTime,
     this.isClose,
   });
@@ -32,6 +34,7 @@ class Post {
       content: ds['content'],
       people: ds['people'],
       place: ds['place'],
+      closeTime: ds['closeTime'],
       writeTime: ds['writeTime'],
       isClose: ds['isClose'],
     );
@@ -46,6 +49,7 @@ class Post {
       content: ss.get('content'),
       people: ss.get('people'),
       place: ss.get('people'),
+      closeTime: ss.get('closeTime'),
       writeTime: ss.get('writeTime'),
       isClose: ss.get('isClose'),
     );
@@ -60,6 +64,7 @@ class Post {
       'content': content,
       'people': people,
       'place': place,
+      'closeTime': closeTime,
       'writeTime': writeTime,
       'isClose': isClose,
     };

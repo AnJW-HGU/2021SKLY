@@ -9,7 +9,7 @@ class PostRepository {
   }
 
   Stream<List<Post>> getAllPosts() {
-    final snapshot = _firestore.collection('Post').orderBy('writeTime').snapshots();
+    final snapshot = _firestore.collection('Post').orderBy('closeTime').snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];
       try {
@@ -25,7 +25,7 @@ class PostRepository {
     final snapshot = _firestore
         .collection('Post')
         .where('category', isEqualTo: category)
-        .orderBy('writeTime')
+        .orderBy('closeTime')
         .snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];
