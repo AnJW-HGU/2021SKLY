@@ -30,16 +30,18 @@ class BoardPage extends StatelessWidget {
             ),
             pinned: true,
             floating: true,
-            expandedHeight: 200.0,
-            flexibleSpace: Placeholder(),
+            expandedHeight: 220.0,
+            flexibleSpace: Padding(
+              padding: EdgeInsets.only(top: 80),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildCategory(context, '치킨');
+                },
+              ),
+            ),
             backgroundColor: colorScheme.primary,
-            // bottom: ListView(
-            //   scrollDirection: Axis.horizontal,
-            //   children: [
-            //     _buildCategory(context, '치킨'),
-            //     _buildCategory(context, '밥'),
-            //   ],
-            // ),
           ),
           StreamBuilder<List<Post>>(
               stream: _postsController.stream,
@@ -87,15 +89,18 @@ class BoardPage extends StatelessWidget {
 
   Widget _buildCategory(BuildContext context, String category) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: 50,
-          backgroundColor: colorScheme.surface,
-        ),
-        Text('$category', style: TextStyle(fontSize: 14, color: colorScheme.surface),),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: colorScheme.surface,
+          ),
+          Text('$category', style: TextStyle(fontSize: 14, color: colorScheme.surface),),
+        ],
+      ),
     );
   }
 
