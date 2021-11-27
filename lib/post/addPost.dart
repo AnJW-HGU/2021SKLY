@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:skly/controller/postController.dart';
 
 class AddPostPage extends StatefulWidget {
@@ -32,24 +33,14 @@ class _AddPostPageState extends State<AddPostPage> {
               icon: Icon(Icons.arrow_back_rounded),
               color: colorScheme.surface,
               onPressed: () {
-                _postController.submitPost();
                 Get.back();
               },
             ),
             actions: [
               TextButton(
                   onPressed: () {
-                    if (_postController.submitPost()) {
+                    if (_postController.submitPost(context)) {
                       Get.back();
-                    }
-                    else {
-                      Get.snackbar(
-                        '등록 실패',
-                        '내용을 다 채워주세요!',
-                        backgroundColor: colorScheme.secondary,
-                        snackPosition: SnackPosition.TOP,
-                        duration: Duration(milliseconds: 1000),
-                      );
                     }
                   },
                   child: Text(
@@ -69,6 +60,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // 가게 이름
                     TextFormField(
                       controller: _postController.storeTextEditing,
                       decoration: InputDecoration(
@@ -85,6 +77,27 @@ class _AddPostPageState extends State<AddPostPage> {
                           hintStyle: TextStyle(
                             color: colorScheme.primary,
                           )),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // 배달 장소
+                    TextFormField(
+                      controller: _postController.storeTextEditing,
+                      decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: colorScheme.onSurface, width: 1),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: colorScheme.secondary, width: 2),
+                          ),
+                          border: UnderlineInputBorder(),
+                          hintText: '배달 장소를 적어주세요',
+                          hintStyle: TextStyle(
+                            color: colorScheme.primary,
+                          ),),
                     ),
                     SizedBox(
                       height: 30,
@@ -120,28 +133,37 @@ class _AddPostPageState extends State<AddPostPage> {
                       height: 30,
                     ),
                     // 최대 인원 수 선택
-                    GestureDetector(
-                      onTap: () {
-                        print('number picker 사용');
-                      },
-                      child: Container(
-                        height: 40,
-                        child: Center(
-                          child: Text(
-                            '최대 인원 수 선택',
-                            style: TextStyle(
-                                fontSize: 15, color: colorScheme.primary),
+                    Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              '최대 인원 선택',
+                              style: TextStyle(
+                                  fontSize: 15, color: colorScheme.primary),
+                            ),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: colorScheme.onSurface, width: 1),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
+                          NumberPicker(
+                            value: _postController.people,
+                            minValue: 2,
+                            maxValue: 20,
+                            onChanged: (value) {
+                              _postController.people = value;
+                              _postController.isPickPeople = true;
+                              _postController.update();
+                            },
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: colorScheme.onSurface, width: 1),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 15,
                     ),
                     // 모집글 내용
                     TextFormField(

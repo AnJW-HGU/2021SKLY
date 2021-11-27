@@ -32,15 +32,44 @@ class BoardPage extends StatelessWidget {
             floating: true,
             expandedHeight: 220.0,
             flexibleSpace: Padding(
-              padding: EdgeInsets.only(top: 80),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildCategory(context, '치킨');
-                },
+              padding: EdgeInsets.only(top: 85, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                    ],
+                  ),
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                      _buildCategory(context, '치킨'),
+                    ],
+                  ),
+                ],
               ),
             ),
+            // flexibleSpace: Padding(
+            //   padding: EdgeInsets.only(top: 80),
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 5,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       return _buildCategory(context, '치킨');
+            //     },
+            //   ),
+            // ),
             backgroundColor: colorScheme.primary,
           ),
           StreamBuilder<List<Post>>(
