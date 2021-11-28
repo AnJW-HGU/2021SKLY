@@ -6,17 +6,25 @@ import 'package:skly/chat/chatList.dart';
 import 'package:skly/controller/navigationController.dart';
 import 'package:skly/post/board.dart';
 import 'package:skly/profile/myProfile.dart';
+import 'package:skly/controller/chatListController.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   final NavigationController _navController = Get.put(NavigationController());
+  ChatListController chatListController = Get.put(ChatListController());
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final pageList = [BoardPage(), ChatListPage(), MyProfilePage()];
+    final pageList = [
+      BoardPage(),
+      ChatListPage(
+        chatListController: chatListController,
+      ),
+      MyProfilePage()
+    ];
     return GetBuilder<NavigationController>(builder: (_) {
       return Scaffold(
         body: PageTransitionSwitcher(

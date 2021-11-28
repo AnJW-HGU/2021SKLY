@@ -9,8 +9,8 @@ import 'package:skly/src/sklyTheme.dart';
 import 'package:skly/widget/currentChatTile.dart';
 
 class ChatListPage extends StatefulWidget {
-  const ChatListPage({Key? key}) : super(key: key);
-
+  const ChatListPage({required this.chatListController});
+  final ChatListController chatListController;
   @override
   _ChatListPageState createState() => _ChatListPageState();
 }
@@ -26,9 +26,19 @@ class _ChatListPageState extends State<ChatListPage> {
         backgroundColor: colorScheme.primary,
       ),
       body: GetBuilder<ChatListController>(
-        init: ChatListController(),
-        builder: (_) {
-          return ListView(children: _.currentChat);
+        builder: (chatListController) {
+          /* return ListView.builder(
+            reverse: true,
+            shrinkWrap: true,
+            itemCount: chatListController.currentChat.length,
+            itemBuilder: (BuildContext context, int index) {
+              return chatListController.currentChat[index];
+            },
+          );*/
+          /* setState(() {
+            myChattingList = widget.chatListController.currentChat;
+          });*/
+          return ListView(children: widget.chatListController.currentChat);
         },
       ),
     );
