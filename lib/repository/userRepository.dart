@@ -9,11 +9,22 @@ class UserRepository {
   Future<UserModel.User> getUser() async {
     var doc =
         await _firestore.collection('User').doc(_auth.currentUser!.uid).get();
+    var joiningCollection = [];
+    _firestore
+        .collection('User')
+        .doc(_auth.currentUser!.uid)
+        .collection('joining')
+        .get()
+        .then((value) {
+      value.docs.forEach((document) {
+        joiningCollection.add(document.data()['joiningChat']);
+      });
+    });
     UserModel.User user = UserModel.User(
         id: doc['uid'],
         name: doc['name'],
         email: doc['email'],
-        joiningChat: doc['joiningChat']?.cast<String>());
+        joining: joiningCollection);
     return user;
   }
 
@@ -31,7 +42,6 @@ class UserRepository {
           'email': _auth.currentUser!.email,
           'name': _auth.currentUser!.displayName,
           'uid': _auth.currentUser!.uid,
-          'joiningChat': []
         });
       }
     });
