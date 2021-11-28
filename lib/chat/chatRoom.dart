@@ -5,6 +5,7 @@ import 'package:skly/controller/chatRoomController.dart';
 import 'package:get/get.dart';
 import 'package:skly/widget/messageTile.dart';
 import 'package:skly/model/message.dart';
+import './googlemapTest.dart';
 
 class ChatRoomPage extends StatefulWidget {
   String? docId;
@@ -107,7 +108,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    /* if (_formKey.currentState!.validate()) {
                       widget.chatRoomController.setCurrentRoomId(widget.docId!);
                       await FirebaseFirestore.instance
                           .collection('Post')
@@ -122,7 +123,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         'photo': FirebaseAuth.instance.currentUser!.photoURL
                       });
                       _controller.clear();
-                    }
+                    }*/
+                    Get.to(MapSample());
                   },
                   child: Row(
                     children: [

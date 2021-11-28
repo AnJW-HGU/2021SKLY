@@ -20,7 +20,11 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 50.0),
         children: <Widget>[
           SizedBox(height: 150.0),
-          Center(child: Text('시킬래요?', style: TextStyle(fontSize: 25, color: Colors.white),)),
+          Center(
+              child: Text(
+            '시킬래요?',
+            style: TextStyle(fontSize: 25, color: Colors.white),
+          )),
           SizedBox(height: 200.0),
           SignInButton(Buttons.Google, onPressed: () async {
             await _loginController.signInWithGoogle();
