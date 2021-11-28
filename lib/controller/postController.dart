@@ -28,12 +28,21 @@ class PostController extends GetxController {
     update();
   }
 
-  bool submitPost(BuildContext context) {
+  Future<bool> submitPost(BuildContext context) async {
     final colorScheme = Theme.of(context).colorScheme;
     if (this.storeTextEditing.text == null) {
       Get.snackbar(
         '등록 실패',
         '가게 이름을 적어주세요!',
+        backgroundColor: colorScheme.secondary,
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(milliseconds: 1000),
+      );
+      return false;
+    } else if (this.placeTextEditing.text == null) {
+      Get.snackbar(
+        '등록 실패',
+        '배달 장소를 적어주세요!',
         backgroundColor: colorScheme.secondary,
         snackPosition: SnackPosition.TOP,
         duration: Duration(milliseconds: 1000),
@@ -57,15 +66,6 @@ class PostController extends GetxController {
         duration: Duration(milliseconds: 1000),
       );
       return false;
-    } else if (this.placeTextEditing.text == null) {
-      Get.snackbar(
-        '등록 실패',
-        '배달 장소를 적어주세요!',
-        backgroundColor: colorScheme.secondary,
-        snackPosition: SnackPosition.TOP,
-        duration: Duration(milliseconds: 1000),
-      );
-      return false;
     } else if (this.contentTextEditing.text == null) {
       Get.snackbar(
         '등록 실패',
@@ -82,7 +82,7 @@ class PostController extends GetxController {
         category: 'chicken',
         content: this.contentTextEditing.text,
         people: this.people,
-        peopleJoin: [_userController.user.id].cast<List<String>>(),
+        peopleJoin: [_userController.user.id].cast<String>(),
         place: this.placeTextEditing.text,
         closeTime: Timestamp.fromDate(DateTime(
             DateTime.now().year,
@@ -93,7 +93,7 @@ class PostController extends GetxController {
         writeTime: Timestamp.now(),
         isClose: false,
       );
-      PostRepository().setPost(post);
+      await PostRepository().setPost(post);
       return true;
     }
   }

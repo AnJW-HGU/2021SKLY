@@ -7,7 +7,7 @@ class Post {
   String? category;
   String? content;
   int? people;
-  List<dynamic>? peopleJoin;
+  List<String>? peopleJoin;
   String? place;
   Timestamp? closeTime;
   Timestamp? writeTime;
@@ -63,7 +63,7 @@ class Post {
       category: ds['category'],
       content: ds['content'],
       people: ds['people'],
-      peopleJoin: ds['peopleJoin'],
+      peopleJoin: ds['peopleJoin'].cast<String>(),
       place: ds['place'],
       closeTime: ds['closeTime'],
       writeTime: ds['writeTime'],
@@ -79,7 +79,7 @@ class Post {
       category: ss.get('category'),
       content: ss.get('content'),
       people: ss.get('people'),
-      peopleJoin: ss.get('peopleJoin'),
+      peopleJoin: ss.get('peopleJoin').cast<String>(),
       place: ss.get('place'),
       closeTime: ss.get('closeTime'),
       writeTime: ss.get('writeTime'),

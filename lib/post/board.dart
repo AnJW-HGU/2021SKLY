@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,12 +5,13 @@ import 'package:skly/controller/postsController.dart';
 import 'package:skly/model/post.dart';
 import 'package:intl/intl.dart';
 import 'package:skly/post/addPost.dart';
-import 'package:skly/repository/postRepository.dart';
+import 'package:skly/controller/userController.dart';
 
 class BoardPage extends StatelessWidget {
   BoardPage({Key? key}) : super(key: key);
 
   PostsController _postsController = Get.put(PostsController());
+  UserController _userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,10 @@ class BoardPage extends StatelessWidget {
             radius: 25,
             backgroundColor: colorScheme.surface,
           ),
-          Text('$category', style: TextStyle(fontSize: 14, color: colorScheme.surface),),
+          Text(
+            '$category',
+            style: TextStyle(fontSize: 14, color: colorScheme.surface),
+          ),
         ],
       ),
     );
@@ -147,15 +150,33 @@ class BoardPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text("[${post.store}]"),
-              //     Text("${post.place}"),
-              //   ],
-              // ),
-              Text('[${post.store}]'),
-              Text('${post.place}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "[${post.store}]",
+                      ),
+                      Text(
+                        "${post.place}",
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                      visible: post.userId == _userController.user.id,
+                      child: GestureDetector(
+                        onTap: () {
+                          _postsController.deletePost(postId: post.id!);
+                        },
+                        child: Icon(
+                          Icons.delete_outline_rounded,
+                          color: Colors.black,
+                        ),
+                      )),
+                ],
+              ),
               SizedBox(
                 height: 3,
               ),
@@ -172,8 +193,9 @@ class BoardPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  if (post.people == 100) Text('없음'),
-                  if (post.people != 100) Text('0/${post.people}'),
+                  // if (post.people == 100) Text('없음'),
+                  // if (post.people != 100)
+                  Text('${post.peopleJoin!.length}/${post.people}'),
                   // 참여자 수 받기 (수정)
                 ],
               ),
@@ -232,16 +254,15 @@ class BoardPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  if (post.people == 100)
-                    Text(
-                      '없음',
-                      style: TextStyle(color: colorScheme.primaryVariant),
-                    ),
-                  if (post.people != 100)
-                    Text(
-                      '0/${post.people}',
-                      style: TextStyle(color: colorScheme.primaryVariant),
-                    ),
+                  // if (post.people == 100)
+                  //   Text(
+                  //     '없음',
+                  //     style: TextStyle(color: colorScheme.primaryVariant),
+                  //   ),
+                  Text(
+                    '${post.peopleJoin!.length}/${post.people}',
+                    style: TextStyle(color: colorScheme.primaryVariant),
+                  ),
                   // 참여자 수 받기 (수정)
                 ],
               ),
@@ -255,72 +276,75 @@ class BoardPage extends StatelessWidget {
   Future<dynamic> _postDialog(BuildContext context, Post post) {
     final colorScheme = Theme.of(context).colorScheme;
     return Get.defaultDialog(
-      title: '[${post.store!}]',
-      content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('${post.place!}'),
-            SizedBox(height: 10,),
-            Text('${post.content!}'),
-            Text(
-              '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
-              // style: TextStyle(color: colorScheme.primaryVariant),
-            ),
-            if (post.people == 100)
+        title: '[${post.store!}]',
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('${post.place!}'),
+              SizedBox(
+                height: 10,
+              ),
+              Text('${post.content!}'),
               Text(
-                '없음',
+                '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
                 // style: TextStyle(color: colorScheme.primaryVariant),
               ),
-            if (post.people != 100)
-              Text(
-                '0/${post.people}',
-                // style: TextStyle(color: colorScheme.primaryVariant),
+              if (post.people == 100)
+                Text(
+                  '없음',
+                  // style: TextStyle(color: colorScheme.primaryVariant),
+                ),
+              if (post.people != 100)
+                Text(
+                  '0/${post.people}',
+                  // style: TextStyle(color: colorScheme.primaryVariant),
+                ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     Text(
+              //       '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+              //       // style: TextStyle(color: colorScheme.primaryVariant),
+              //     ),
+              //     Spacer(),
+              //     if (post.people == 100)
+              //       Text(
+              //         '없음',
+              //         // style: TextStyle(color: colorScheme.primaryVariant),
+              //       ),
+              //     if (post.people != 100)
+              //       Text(
+              //         '0/${post.people}',
+              //         // style: TextStyle(color: colorScheme.primaryVariant),
+              //       ),
+              //     // 참여자 수 받기 (수정)
+              //   ],
+              // ),
+              SizedBox(
+                height: 15,
               ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     Text(
-            //       '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
-            //       // style: TextStyle(color: colorScheme.primaryVariant),
-            //     ),
-            //     Spacer(),
-            //     if (post.people == 100)
-            //       Text(
-            //         '없음',
-            //         // style: TextStyle(color: colorScheme.primaryVariant),
-            //       ),
-            //     if (post.people != 100)
-            //       Text(
-            //         '0/${post.people}',
-            //         // style: TextStyle(color: colorScheme.primaryVariant),
-            //       ),
-            //     // 참여자 수 받기 (수정)
-            //   ],
-            // ),
-            SizedBox(height: 15,),
-            Text('같이 배달하시겠습니까?'),
-          ],
+              Text('같이 배달하시겠습니까?'),
+            ],
+          ),
         ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            print('취소');
-            Get.back();
-          },
-          child: Text('취소'),
-        ),
-        TextButton(
-          onPressed: () {
-            print('확인');
-            Get.back();
-          },
-          child: Text('확인'),
-        ),
-      ]
-    );
+        actions: [
+          TextButton(
+            onPressed: () {
+              print('취소');
+              Get.back();
+            },
+            child: Text('취소'),
+          ),
+          TextButton(
+            onPressed: () {
+              print('확인');
+              Get.back();
+            },
+            child: Text('확인'),
+          ),
+        ]);
   }
 }

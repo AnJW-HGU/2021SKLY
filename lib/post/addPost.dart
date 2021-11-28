@@ -38,9 +38,13 @@ class _AddPostPageState extends State<AddPostPage> {
             ),
             actions: [
               TextButton(
-                  onPressed: () {
-                    if (_postController.submitPost(context)) {
+                  onPressed: () async {
+                    bool _postValidation = await _postController.submitPost(context);
+                    if (_postValidation) {
                       Get.back();
+                    }
+                    else {
+                      print('validation error');
                     }
                   },
                   child: Text(
@@ -83,7 +87,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     ),
                     // 배달 장소
                     TextFormField(
-                      controller: _postController.storeTextEditing,
+                      controller: _postController.placeTextEditing,
                       decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(

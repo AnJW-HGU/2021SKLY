@@ -11,6 +11,10 @@ class PostRepository {
     await reference.set(post.toMap());
   }
 
+  Future<void> deletePost({required String postId}) async {
+    await _firestore.collection('Post').doc(postId).delete();
+  }
+
   Stream<List<Post>> getAllPosts() {
     final snapshot = _firestore.collection('Post').orderBy('closeTime').snapshots();
     return snapshot.map((snapshot) {
