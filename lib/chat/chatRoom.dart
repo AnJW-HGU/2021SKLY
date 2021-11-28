@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:skly/controller/chatRoomController.dart';
 import 'package:get/get.dart';
 import 'package:skly/widget/messageTile.dart';
+import 'package:skly/model/message.dart';
 
 class ChatRoomPage extends StatefulWidget {
-  const ChatRoomPage({Key? key}) : super(key: key);
+  String? docId;
+  final ChatRoomController chatRoomController;
+  ChatRoomPage({required this.docId, required this.chatRoomController});
 
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
@@ -15,7 +18,7 @@ class ChatRoomPage extends StatefulWidget {
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-
+  List<MessageTile> messages = [];
 /**
  * 우선 해야할 것은 Stream builder을 사용해서 메시지의 정보를 가져오는 것이다. 
  * 그것만 하면 이제 일사천리로 할 수 있을 것 같다. 
@@ -24,30 +27,58 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
  * 
  */
 
+  /*Widget chatList() {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Post')
+            .doc(widget.docId)
+            .collection('message')
+            .orderBy('sentTime')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          return ListView.builder(
+              itemCount: snapshot.data!.documents.length,
+              itemBuilder: (context, index) {
+                return MessageTile(Message(
+                  content: snapshot.data!.documents[index].data["content"],
+                  name: snapshot.data.documents[index].data["content"],
+                  photo: snapshot.data.documents[index].data["content"],
+                  sentTime: snapshot.data.documents[index].data["content"],
+                  type: snapshot.data.documents[index].data["content"],
+                  uid: snapshot.data.documents[index].data["content"],
+                ));
+              });
+        });
+  }*/
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('TestChatRoom')),
+        title: Text('TestChatRoom'),
         backgroundColor: colorScheme.primary,
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        GetBuilder<ChatRoomController>(
-            init: ChatRoomController(),
-            builder: (_) {
-              return Expanded(
-                child: ListView.builder(
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemCount: _.messages.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MessageTile(_.messages[index]);
-                  },
-                ),
-              );
-            }),
+        Expanded(
+          child: GetBuilder<ChatRoomController>(builder: (_) {
+            return ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: widget.chatRoomController.messages.length,
+              itemBuilder: (BuildContext context, int index) {
+                List<Message> curMessage =
+                    widget.chatRoomController.getMessages();
+                print("message" + curMessage.length.toString());
+                return MessageTile(curMessage[index]);
+              },
+            );
+          }),
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -77,10 +108,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      print('CurrentTime:' +
-                          FieldValue.serverTimestamp().toString());
+                      widget.chatRoomController.setCurrentRoomId(widget.docId!);
                       await FirebaseFirestore.instance
-                          .collection('TestChatRoom')
+                          .collection('Post')
+                          .doc(widget.chatRoomController.currentRoomId)
+                          .collection('message')
                           .add({
                         'content': _controller.text,
                         'name': FirebaseAuth.instance.currentUser!.displayName,
