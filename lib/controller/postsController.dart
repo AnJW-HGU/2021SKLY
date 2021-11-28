@@ -43,4 +43,8 @@ class PostsController extends GetxController {
               child: Text('삭제')),
         ]);
   }
+
+  void joinPost({required String postId, required String userId}) {
+    PostRepository().joinPost(postId: postId, userId: userId);
+  }
 }

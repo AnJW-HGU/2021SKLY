@@ -210,8 +210,8 @@ class BoardPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        print('dialog 띄우기');
-        _postDialog(context, post);
+        // print('dialog 띄우기');
+        // _postDialog(context, post);
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -289,40 +289,19 @@ class BoardPage extends StatelessWidget {
               ),
               Text('${post.content!}'),
               Text(
-                '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+                '주문 시간: ${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
                 // style: TextStyle(color: colorScheme.primaryVariant),
               ),
-              if (post.people == 100)
+              // if (post.people == 100)
+              //   Text(
+              //     '없음',
+              //     // style: TextStyle(color: colorScheme.primaryVariant),
+              //   ),
+              // if (post.people != 100)
                 Text(
-                  '없음',
+                  '${post.peopleJoin!.length}/${post.people}',
                   // style: TextStyle(color: colorScheme.primaryVariant),
                 ),
-              if (post.people != 100)
-                Text(
-                  '0/${post.people}',
-                  // style: TextStyle(color: colorScheme.primaryVariant),
-                ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     Text(
-              //       '${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
-              //       // style: TextStyle(color: colorScheme.primaryVariant),
-              //     ),
-              //     Spacer(),
-              //     if (post.people == 100)
-              //       Text(
-              //         '없음',
-              //         // style: TextStyle(color: colorScheme.primaryVariant),
-              //       ),
-              //     if (post.people != 100)
-              //       Text(
-              //         '0/${post.people}',
-              //         // style: TextStyle(color: colorScheme.primaryVariant),
-              //       ),
-              //     // 참여자 수 받기 (수정)
-              //   ],
-              // ),
               SizedBox(
                 height: 15,
               ),
@@ -341,6 +320,7 @@ class BoardPage extends StatelessWidget {
           TextButton(
             onPressed: () {
               print('확인');
+              _postsController.joinPost(postId: post.id!, userId: _userController.user.id!);
               Get.back();
             },
             child: Text('확인'),
