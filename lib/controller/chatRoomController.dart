@@ -11,20 +11,30 @@ class ChatRoomController extends GetxController {
     init();
   }
 
-  setCurrentRoodId(String id) {
+  setCurrentRoomId(String id) {
     currentRoomId = id;
+    print("CurrentRoomId:" + currentRoomId!);
+    init();
     update();
   }
 
+  getMessages() {
+    return messages;
+  }
+
   init() async {
+    print("AtTheController" + currentRoomId!);
     await Firebase.initializeApp();
     FirebaseFirestore.instance
-        .collection('TestChatRoom')
+        .collection('Post')
+        .doc(currentRoomId)
+        .collection('message')
         .orderBy('sendTime', descending: true)
         .snapshots()
         .listen((snapshot) {
       messages.clear();
       snapshot.docs.forEach((document) async {
+        print(document);
         messages.add(Message(
             content: document.data()['content'],
             name: document.data()['name'],
@@ -34,6 +44,8 @@ class ChatRoomController extends GetxController {
             photo: document.data()['photo']));
       });
       update();
+      print("CurrentMessage length in chatRoomController: " +
+          messages.length.toString());
     });
   }
 }
