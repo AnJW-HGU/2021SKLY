@@ -52,6 +52,10 @@ class UserRepository {
 
   Future<void> addJoiningPost({required String postId}) async {
     DocumentReference reference = _firestore.collection('User').doc(_auth.currentUser!.uid);
-    await reference.collection('joining').doc(postId).set(<String, String>{'joiningChat': postId});
+    DocumentReference postReference = _firestore.collection('Post').doc(postId);
+    Map<String, dynamic> data = {
+      'joiningChat': postReference
+    };
+    await reference.collection('joining').doc(postId).set(data);
   }
 }
