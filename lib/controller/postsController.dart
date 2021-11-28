@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skly/model/post.dart';
 import 'package:skly/repository/postRepository.dart';
+import 'package:skly/repository/userRepository.dart';
 
 class PostsController extends GetxController {
   PostsController() {
@@ -46,5 +47,6 @@ class PostsController extends GetxController {
 
   void joinPost({required String postId, required String userId}) {
     PostRepository().joinPost(postId: postId, userId: userId);
+    UserRepository().addJoiningPost(postId: postId);
   }
 }

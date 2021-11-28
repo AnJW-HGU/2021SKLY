@@ -9,7 +9,7 @@ class UserController extends GetxController {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late UserModel.User user;
 
-  void setUser() async {
+  Future<void> setUser() async {
     user = await UserRepository().getUser();
     update();
   }

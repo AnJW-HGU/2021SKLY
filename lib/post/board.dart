@@ -11,7 +11,7 @@ class BoardPage extends StatelessWidget {
   BoardPage({Key? key}) : super(key: key);
 
   PostsController _postsController = Get.put(PostsController());
-  UserController _userController = Get.put(UserController());
+  UserController _userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +30,40 @@ class BoardPage extends StatelessWidget {
             ),
             pinned: true,
             floating: true,
+            snap: true,
             expandedHeight: 220.0,
-            flexibleSpace: Padding(
-              padding: EdgeInsets.only(top: 85, bottom: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                    ],
-                  ),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                      _buildCategory(context, '치킨'),
-                    ],
-                  ),
-                ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                padding: EdgeInsets.only(top: 85, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '치킨'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             // flexibleSpace: Padding(
@@ -118,20 +124,25 @@ class BoardPage extends StatelessWidget {
 
   Widget _buildCategory(BuildContext context, String category) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 13),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 25,
-            backgroundColor: colorScheme.surface,
-          ),
-          Text(
-            '$category',
-            style: TextStyle(fontSize: 14, color: colorScheme.surface),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        print('a');
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundColor: colorScheme.surface,
+            ),
+            Text(
+              '$category',
+              style: TextStyle(fontSize: 14, color: colorScheme.surface),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -298,10 +309,10 @@ class BoardPage extends StatelessWidget {
               //     // style: TextStyle(color: colorScheme.primaryVariant),
               //   ),
               // if (post.people != 100)
-                Text(
-                  '${post.peopleJoin!.length}/${post.people}',
-                  // style: TextStyle(color: colorScheme.primaryVariant),
-                ),
+              Text(
+                '${post.peopleJoin!.length}/${post.people}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -320,7 +331,8 @@ class BoardPage extends StatelessWidget {
           TextButton(
             onPressed: () {
               print('확인');
-              _postsController.joinPost(postId: post.id!, userId: _userController.user.id!);
+              _postsController.joinPost(
+                  postId: post.id!, userId: _userController.user.id!);
               Get.back();
             },
             child: Text('확인'),

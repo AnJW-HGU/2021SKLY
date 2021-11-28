@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:skly/controller/userController.dart';
 import 'package:skly/model/user.dart' as UserModel;
 
 class UserRepository {
@@ -30,13 +32,13 @@ class UserRepository {
   }
 
   Future<void> setUser() async {
-    FirebaseFirestore.instance
+    _firestore
         .collection('User')
         .where('uid', isEqualTo: _auth.currentUser!.uid)
         .get()
         .then((users) {
       if (users.size == 0) {
-        FirebaseFirestore.instance
+        _firestore
             .collection('User')
             .doc(_auth.currentUser!.uid)
             .set(<String, dynamic>{
@@ -46,5 +48,10 @@ class UserRepository {
         });
       }
     });
+  }
+
+  Future<void> addJoiningPost({required String postId}) async {
+    DocumentReference reference = _firestore.collection('User').doc(_auth.currentUser!.uid);
+    await reference.collection('joining').doc(postId).set(<String, String>{'joiningChat': postId});
   }
 }

@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   LoginController _loginController = Get.put(LoginController());
-  UserController _userController = Get.put(UserController());
+  // UserController _userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 200.0),
           SignInButton(Buttons.Google, onPressed: () async {
             await _loginController.signInWithGoogle();
-            _userController.setUser();
+            // await _userController.setUser();
           }),
         ],
       ),
