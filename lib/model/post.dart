@@ -7,6 +7,7 @@ class Post {
   String? category;
   String? content;
   int? people;
+  List<String>? peopleJoin;
   String? place;
   Timestamp? closeTime;
   Timestamp? writeTime;
@@ -19,11 +20,40 @@ class Post {
     this.category,
     this.content,
     this.people,
+    this.peopleJoin,
     this.place,
     this.closeTime,
     this.writeTime,
     this.isClose,
   });
+
+  Post copyWith({
+    String? id,
+    String? userId,
+    String? store,
+    String? category,
+    String? content,
+    int? people,
+    List<String>? peopleJoin,
+    String? place,
+    Timestamp? closeTime,
+    Timestamp? writeTime,
+    bool? isClose,
+  }) {
+    return Post(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      store: store ?? this.store,
+      category: category ?? this.category,
+      content: content ?? this.content,
+      people: people ?? this.people,
+      peopleJoin: peopleJoin ?? this.peopleJoin,
+      place: place ?? this.place,
+      closeTime: closeTime ?? this.closeTime,
+      writeTime: writeTime ?? this.writeTime,
+      isClose: isClose ?? this.isClose,
+    );
+  }
 
   factory Post.fromDocs(Map<String, dynamic> ds) {
     return Post(
@@ -33,6 +63,7 @@ class Post {
       category: ds['category'],
       content: ds['content'],
       people: ds['people'],
+      peopleJoin: ds['peopleJoin'].cast<String>(),
       place: ds['place'],
       closeTime: ds['closeTime'],
       writeTime: ds['writeTime'],
@@ -48,7 +79,8 @@ class Post {
       category: ss.get('category'),
       content: ss.get('content'),
       people: ss.get('people'),
-      place: ss.get('people'),
+      peopleJoin: ss.get('peopleJoin').cast<String>(),
+      place: ss.get('place'),
       closeTime: ss.get('closeTime'),
       writeTime: ss.get('writeTime'),
       isClose: ss.get('isClose'),
@@ -63,6 +95,7 @@ class Post {
       'category': category,
       'content': content,
       'people': people,
+      'peopleJoin': peopleJoin,
       'place': place,
       'closeTime': closeTime,
       'writeTime': writeTime,

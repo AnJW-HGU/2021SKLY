@@ -5,7 +5,19 @@ class PostRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> setPost(Post post) async {
-    await _firestore.collection('Post').doc(post.id).set(post.toMap());
+    String pid = _firestore.collection('Post').doc().id;
+    post = post.copyWith(id: pid);
+    DocumentReference reference = _firestore.collection('Post').doc(post.id);
+    await reference.set(post.toMap());
+  }
+
+  Future<void> deletePost({required String postId}) async {
+    await _firestore.collection('Post').doc(postId).delete();
+  }
+
+  Future<void> joinPost({required String postId, required String userId}) async {
+    DocumentReference reference = _firestore.collection('Post').doc(postId);
+    await reference.update({'peopleJoin': FieldValue.arrayUnion([userId])});
   }
 
   Stream<List<Post>> getAllPosts() {

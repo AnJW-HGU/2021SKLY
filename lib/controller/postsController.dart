@@ -9,7 +9,8 @@ class PostsController extends GetxController {
     init();
   }
 
-  TimeOfDay closeTime = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  TimeOfDay closeTime =
+      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   String category = "all";
   late Stream<List<Post>> stream;
 
@@ -24,5 +25,26 @@ class PostsController extends GetxController {
     update();
   }
 
+  void deletePost({required String postId}) {
+    Get.defaultDialog(
+        title: '모집글 삭제',
+        content: Text('해당 글을 삭제 하시겠습니까?'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text('취소')),
+          TextButton(
+              onPressed: () {
+                PostRepository().deletePost(postId: postId);
+                Get.back();
+              },
+              child: Text('삭제')),
+        ]);
+  }
 
+  void joinPost({required String postId, required String userId}) {
+    PostRepository().joinPost(postId: postId, userId: userId);
+  }
 }
