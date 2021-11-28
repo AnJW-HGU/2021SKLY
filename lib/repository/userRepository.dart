@@ -10,7 +10,7 @@ class UserRepository {
     var doc =
         await _firestore.collection('User').doc(_auth.currentUser!.uid).get();
     var joiningCollection = [];
-    _firestore
+    await _firestore
         .collection('User')
         .doc(_auth.currentUser!.uid)
         .collection('joining')
@@ -20,6 +20,7 @@ class UserRepository {
         joiningCollection.add(document.data()['joiningChat']);
       });
     });
+    print("Repository:" + joiningCollection.toString());
     UserModel.User user = UserModel.User(
         id: doc['uid'],
         name: doc['name'],

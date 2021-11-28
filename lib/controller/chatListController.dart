@@ -14,32 +14,25 @@ class ChatListController extends GetxController {
   }
 
   init() async {
-    UserRepository().getUser().then((value) {
-      curUser = value;
-    });
-
-    /*curUser!.joining!.forEach((element) {
-      element.get().then((value) {
-        print(value.get('store') + value.id.toString());
-      });
-    });*/
-    update();
-    /* await Firebase.initializeApp();
+    await Firebase.initializeApp();
+    currentChat.clear();
     FirebaseFirestore.instance
         .collection('User')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('joining')
         .snapshots()
         .listen((sanpshot) {
+      print('Change Detected');
       currentChat.clear();
       sanpshot.docs.forEach((document) {
         DocumentReference current = document.get('joiningChat');
         current.get().then((value) {
           print(document.id);
           currentChat.add(CurrentChatTile(value.get('store'), document.id));
-          update();
         });
       });
-    });*/
+      update();
+    });
+    update();
   }
 }

@@ -23,7 +23,6 @@ class ChatRoomController extends GetxController {
   }
 
   init() async {
-    print("AtTheController" + currentRoomId!);
     await Firebase.initializeApp();
     FirebaseFirestore.instance
         .collection('Post')
