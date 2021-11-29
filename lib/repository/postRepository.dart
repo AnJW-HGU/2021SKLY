@@ -21,7 +21,7 @@ class PostRepository {
   }
 
   Stream<List<Post>> getAllPosts() {
-    final snapshot = _firestore.collection('Post').orderBy('closeTime').snapshots();
+    final snapshot = _firestore.collection('Post').orderBy('closeTime', descending: true).snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];
       try {

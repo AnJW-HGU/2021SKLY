@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:skly/controller/postController.dart';
+import 'package:skly/post/searchPlace.dart';
 
 class AddPostPage extends StatefulWidget {
   const AddPostPage({Key? key}) : super(key: key);
@@ -106,6 +107,35 @@ class _AddPostPageState extends State<AddPostPage> {
                     SizedBox(
                       height: 30,
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(SearchPlacePage());
+                      },
+                      child: Container(
+                        height: 40,
+                        child: Center(
+                          child: _postController.isPickCloseTime
+                              ? Text(
+                            '${_postController.closeTime.hour.toString().padLeft(2, '0')} : ${_postController.closeTime.minute.toString().padLeft(2, '0')}',
+                            style: TextStyle(
+                                fontSize: 15, color: colorScheme.primary),
+                          )
+                              : Text(
+                            '배달 장소 선택',
+                            style: TextStyle(
+                                fontSize: 15, color: colorScheme.primary),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: colorScheme.onSurface, width: 1),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
                     // 주문시간 선택
                     GestureDetector(
                       onTap: () {
@@ -116,7 +146,7 @@ class _AddPostPageState extends State<AddPostPage> {
                         child: Center(
                           child: _postController.isPickCloseTime
                               ? Text(
-                                  '${_postController.closeTime.hour} : ${_postController.closeTime.minute}',
+                                  '${_postController.closeTime.hour.toString().padLeft(2, '0')} : ${_postController.closeTime.minute.toString().padLeft(2, '0')}',
                                   style: TextStyle(
                                       fontSize: 15, color: colorScheme.primary),
                                 )
