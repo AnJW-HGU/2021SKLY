@@ -63,6 +63,16 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       appBar: AppBar(
         title: Text('TestChatRoom'),
         backgroundColor: colorScheme.primary,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                Get.to(MapSample());
+              },
+              icon: Icon(
+                Icons.map,
+                color: Colors.white,
+              ))
+        ],
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
@@ -108,7 +118,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: () async {
-                    /* if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       widget.chatRoomController.setCurrentRoomId(widget.docId!);
                       await FirebaseFirestore.instance
                           .collection('Post')
@@ -123,8 +133,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         'photo': FirebaseAuth.instance.currentUser!.photoURL
                       });
                       _controller.clear();
-                    }*/
-                    Get.to(MapSample());
+                    }
                   },
                   child: Row(
                     children: [

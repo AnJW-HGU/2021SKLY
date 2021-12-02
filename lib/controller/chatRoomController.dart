@@ -43,8 +43,6 @@ class ChatRoomController extends GetxController {
             photo: document.data()['photo']));
       });
       update();
-      print("CurrentMessage length in chatRoomController: " +
-          messages.length.toString());
     });
   }
 }
