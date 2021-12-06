@@ -80,13 +80,21 @@ class _AddPostPageState extends State<AddPostPage> {
                     // 카테고리 선택
                     Row(
                       children: [
-                        Text('가게 종류 :  ', style: TextStyle(fontSize: 15, color: colorScheme.primary),),
+                        Text(
+                          '가게 종류 :  ',
+                          style: TextStyle(
+                              fontSize: 15, color: colorScheme.primary),
+                        ),
                         DropdownButton(
                           value: _postController.category,
                           items: _categoryList.map((value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value, style: TextStyle(fontSize: 15, color: Colors.black),),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -143,7 +151,26 @@ class _AddPostPageState extends State<AddPostPage> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Kpostal result = await Navigator.push(context, MaterialPageRoute(builder: (_) => KpostalView()));
+                        Kpostal result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => KpostalView(
+                                      appBar: AppBar(
+                                        title: Text(
+                                          '배달 장소 검색',
+                                          style: TextStyle(fontSize: 15, color: colorScheme.surface),
+                                        ),
+                                        titleSpacing: 0,
+                                        backgroundColor: colorScheme.primary,
+                                        leading: IconButton(
+                                          icon: Icon(Icons.arrow_back_rounded),
+                                          color: colorScheme.surface,
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                        ),
+                                      ),
+                                    )));
                         _postController.placePicker(context, result);
                       },
                       child: Container(
