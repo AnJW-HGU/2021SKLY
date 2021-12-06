@@ -17,6 +17,17 @@ class _AddPostPageState extends State<AddPostPage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final List<String> _categoryList = [
+      '한식',
+      '분식',
+      '카페',
+      '일식',
+      '치킨',
+      '피자',
+      '양식',
+      '중식',
+      '버거'
+    ];
 
     PostController _postController = Get.put(PostController());
 
@@ -40,11 +51,11 @@ class _AddPostPageState extends State<AddPostPage> {
             actions: [
               TextButton(
                   onPressed: () async {
-                    bool _postValidation = await _postController.submitPost(context);
+                    bool _postValidation =
+                        await _postController.submitPost(context);
                     if (_postValidation) {
                       Get.back();
-                    }
-                    else {
+                    } else {
                       print('validation error');
                     }
                   },
@@ -65,6 +76,25 @@ class _AddPostPageState extends State<AddPostPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // 카테고리 선택
+                    Row(
+                      children: [
+                        Text('가게 종류 :  ', style: TextStyle(fontSize: 15, color: colorScheme.primary),),
+                        DropdownButton(
+                          value: _postController.category,
+                          items: _categoryList.map((value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value, style: TextStyle(fontSize: 15, color: Colors.black),),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            _postController.category = value as String;
+                            _postController.update();
+                          },
+                        ),
+                      ],
+                    ),
                     // 가게 이름
                     TextFormField(
                       controller: _postController.storeTextEditing,
@@ -80,6 +110,7 @@ class _AddPostPageState extends State<AddPostPage> {
                           border: UnderlineInputBorder(),
                           hintText: '가게 이름을 적어주세요',
                           hintStyle: TextStyle(
+                            fontSize: 15,
                             color: colorScheme.primary,
                           )),
                     ),
@@ -90,19 +121,21 @@ class _AddPostPageState extends State<AddPostPage> {
                     TextFormField(
                       controller: _postController.placeTextEditing,
                       decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: colorScheme.onSurface, width: 1),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: colorScheme.secondary, width: 2),
-                          ),
-                          border: UnderlineInputBorder(),
-                          hintText: '배달 장소를 적어주세요',
-                          hintStyle: TextStyle(
-                            color: colorScheme.primary,
-                          ),),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: colorScheme.onSurface, width: 1),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: colorScheme.secondary, width: 2),
+                        ),
+                        border: UnderlineInputBorder(),
+                        hintText: '배달 장소를 적어주세요',
+                        hintStyle: TextStyle(
+                          fontSize: 15,
+                          color: colorScheme.primary,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 30,
@@ -110,21 +143,23 @@ class _AddPostPageState extends State<AddPostPage> {
                     GestureDetector(
                       onTap: () {
                         Get.to(SearchPlacePage());
+                        _postController.isPickPlace = !_postController.isPickPlace;
+                        _postController.update();
                       },
                       child: Container(
                         height: 40,
                         child: Center(
-                          child: _postController.isPickCloseTime
+                          child: _postController.isPickPlace
                               ? Text(
-                            '${_postController.closeTime.hour.toString().padLeft(2, '0')} : ${_postController.closeTime.minute.toString().padLeft(2, '0')}',
-                            style: TextStyle(
-                                fontSize: 15, color: colorScheme.primary),
-                          )
+                                  '${_postController.placeTextEditing.text}',
+                                  style: TextStyle(
+                                      fontSize: 15, color: colorScheme.primary),
+                                )
                               : Text(
-                            '배달 장소 선택',
-                            style: TextStyle(
-                                fontSize: 15, color: colorScheme.primary),
-                          ),
+                                  '배달 장소 선택',
+                                  style: TextStyle(
+                                      fontSize: 15, color: colorScheme.primary),
+                                ),
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -191,8 +226,8 @@ class _AddPostPageState extends State<AddPostPage> {
                         ],
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: colorScheme.onSurface, width: 1),
+                        border:
+                            Border.all(color: colorScheme.onSurface, width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
@@ -215,6 +250,7 @@ class _AddPostPageState extends State<AddPostPage> {
                           border: UnderlineInputBorder(),
                           labelText: '모집글 내용',
                           labelStyle: TextStyle(
+                            fontSize: 15,
                             color: colorScheme.primary,
                           )),
                     ),

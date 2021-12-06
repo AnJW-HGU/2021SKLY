@@ -6,13 +6,15 @@ import 'package:skly/controller/userController.dart';
 import 'package:skly/repository/postRepository.dart';
 
 class PostController extends GetxController {
-  TimeOfDay closeTime =
-      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
-  int people = 2;
+  String category = '한식';
   TextEditingController storeTextEditing = TextEditingController();
   TextEditingController placeTextEditing = TextEditingController();
+  TimeOfDay closeTime =
+  TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  int people = 2;
   TextEditingController contentTextEditing = TextEditingController();
 
+  bool isPickPlace = false;
   bool isPickCloseTime = false;
   bool isPickPeople = false;
 
@@ -79,7 +81,7 @@ class PostController extends GetxController {
       Post post = Post(
         userId: _userController.user.id,
         store: this.storeTextEditing.text,
-        category: 'chicken',
+        category: this.category,
         content: this.contentTextEditing.text,
         people: this.people,
         peopleJoin: [_userController.user.id].cast<String>(),

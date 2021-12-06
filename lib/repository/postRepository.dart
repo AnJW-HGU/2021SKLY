@@ -43,7 +43,7 @@ class PostRepository {
     final snapshot = _firestore
         .collection('Post')
         .where('category', isEqualTo: category)
-        .orderBy('closeTime')
+        .orderBy('closeTime', descending: true)
         .snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];
