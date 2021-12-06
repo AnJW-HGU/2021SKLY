@@ -12,7 +12,7 @@ class PostsController extends GetxController {
 
   TimeOfDay closeTime =
       TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
-  String category = "all";
+  String category = "전체";
   late Stream<List<Post>> stream;
 
   Future<void> init() async {
@@ -22,7 +22,11 @@ class PostsController extends GetxController {
 
   Future<void> changeCategory({required String category}) async {
     this.category = category;
-    stream = PostRepository().getPosts(category: category);
+    if (category == "전체") {
+      stream = PostRepository().getAllPosts();
+    } else {
+      stream = PostRepository().getPosts(category: category);
+    }
     update();
   }
 

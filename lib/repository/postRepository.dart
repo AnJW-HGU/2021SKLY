@@ -15,13 +15,19 @@ class PostRepository {
     await _firestore.collection('Post').doc(postId).delete();
   }
 
-  Future<void> joinPost({required String postId, required String userId}) async {
+  Future<void> joinPost(
+      {required String postId, required String userId}) async {
     DocumentReference reference = _firestore.collection('Post').doc(postId);
-    await reference.update({'peopleJoin': FieldValue.arrayUnion([userId])});
+    await reference.update({
+      'peopleJoin': FieldValue.arrayUnion([userId])
+    });
   }
 
   Stream<List<Post>> getAllPosts() {
-    final snapshot = _firestore.collection('Post').orderBy('closeTime', descending: true).snapshots();
+    final snapshot = _firestore
+        .collection('Post')
+        .orderBy('closeTime', descending: true)
+        .snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];
       try {
@@ -37,7 +43,7 @@ class PostRepository {
     final snapshot = _firestore
         .collection('Post')
         .where('category', isEqualTo: category)
-        .orderBy('closeTime')
+        .orderBy('closeTime', descending: true)
         .snapshots();
     return snapshot.map((snapshot) {
       List<Post> result = [];

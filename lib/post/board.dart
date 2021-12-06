@@ -17,108 +17,126 @@ class BoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text(
-              '시킬래요?',
-              style: TextStyle(
-                fontSize: 15,
-                color: colorScheme.surface,
-              ),
-            ),
-            pinned: true,
-            floating: true,
-            snap: true,
-            expandedHeight: 220.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                padding: EdgeInsets.only(top: 85, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                      ],
-                    ),
-                  ],
+    return GetBuilder<PostsController>(
+      builder: (_) {
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: Text(
+                  '시킬래요?',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: colorScheme.surface,
+                  ),
                 ),
+                pinned: true,
+                floating: true,
+                snap: true,
+                expandedHeight: 220.0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    padding: EdgeInsets.only(top: 85, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildCategory(context, '전체'),
+                            _buildCategory(context, '한식'),
+                            _buildCategory(context, '분식'),
+                            _buildCategory(context, '카페'),
+                            _buildCategory(context, '일식'),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildCategory(context, '치킨'),
+                            _buildCategory(context, '피자'),
+                            _buildCategory(context, '양식'),
+                            _buildCategory(context, '중식'),
+                            _buildCategory(context, '버거'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                backgroundColor: colorScheme.primary,
               ),
-            ),
-            // flexibleSpace: Padding(
-            //   padding: EdgeInsets.only(top: 80),
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: 5,
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return _buildCategory(context, '치킨');
-            //     },
-            //   ),
-            // ),
-            backgroundColor: colorScheme.primary,
+              StreamBuilder<List<Post>>(
+                  stream: _postsController.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isNotEmpty) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return Column(
+                              children: [
+                                (snapshot.data![index].isClose ?? false)
+                                    ? _buildClosePost(
+                                        context, snapshot.data![index])
+                                    : _buildPost(
+                                        context, snapshot.data![index]),
+                                Divider(
+                                    height: 1,
+                                    thickness: 1,
+                                    indent: 10,
+                                    endIndent: 10,
+                                    color: colorScheme.primaryVariant),
+                              ],
+                            );
+                          }, childCount: snapshot.data!.length),
+                        );
+                      } else {
+                        return SliverToBoxAdapter(
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 70),
+                                child: Text(
+                                  '모집글이 존재하지 않습니다 :<',
+                                  style: TextStyle(
+                                      fontSize: 15, color: colorScheme.primary),
+                                ),
+                              ),
+                            ));
+                      }
+                    } else if (!snapshot.hasData) {
+                      return SliverToBoxAdapter(
+                          child: LinearProgressIndicator());
+                    } else {
+                      print('error');
+                      return SliverToBoxAdapter(
+                          child: Center(
+                        child: Text(
+                          '에러가 발생했습니다 :<',
+                          style: TextStyle(
+                              fontSize: 16, color: colorScheme.primary),
+                        ),
+                      ));
+                    }
+                  }),
+            ],
           ),
-          StreamBuilder<List<Post>>(
-              stream: _postsController.stream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          (snapshot.data![index].isClose ?? false)
-                              ? _buildClosePost(context, snapshot.data![index])
-                              : _buildPost(context, snapshot.data![index]),
-                          Divider(
-                              height: 1,
-                              thickness: 1,
-                              indent: 10,
-                              endIndent: 10,
-                              color: colorScheme.primaryVariant),
-                        ],
-                      );
-                    }, childCount: snapshot.data!.length),
-                  );
-                } else if (!snapshot.hasData) {
-                  return SliverToBoxAdapter(child: LinearProgressIndicator());
-                } else {
-                  print('error');
-                  return SliverToBoxAdapter(child: Container());
-                }
-              }),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(AddPostPage());
-        },
-        child: Icon(
-          Icons.add_rounded,
-          color: Colors.black,
-        ),
-        backgroundColor: colorScheme.secondary,
-      ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Get.to(AddPostPage());
+            },
+            child: Icon(
+              Icons.add_rounded,
+              color: Colors.black,
+            ),
+            backgroundColor: colorScheme.secondary,
+          ),
+        );
+      },
     );
   }
 
@@ -126,7 +144,7 @@ class BoardPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
-        print('a');
+        _postsController.changeCategory(category: category);
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 13),
@@ -152,7 +170,16 @@ class BoardPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('dialog 띄우기');
-        _postDialog(context, post);
+        if (post.userId != _userController.user.id) {
+          if (!post.peopleJoin!.contains(_userController.user.id) &&
+              post.people! > post.peopleJoin!.length) {
+            _postDialog(context, post);
+          } else if (post.people! <= post.peopleJoin!.length) {
+            _printDialog(context, post, '정원이 마감된 모집글입니다.');
+          } else {
+            _printDialog(context, post, '이미 모집글에 참여하셨습니다.');
+          }
+        }
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -333,6 +360,54 @@ class BoardPage extends StatelessWidget {
               print('확인');
               _postsController.joinPost(
                   postId: post.id!, userId: _userController.user.id!);
+              Get.back();
+            },
+            child: Text('확인'),
+          ),
+        ]);
+  }
+
+  Future<dynamic> _printDialog(
+      BuildContext context, Post post, String content) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Get.defaultDialog(
+        title: '[${post.store!}]',
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('${post.place!}'),
+              SizedBox(
+                height: 10,
+              ),
+              Text('${post.content!}'),
+              Text(
+                '주문 시간: ${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+              // if (post.people == 100)
+              //   Text(
+              //     '없음',
+              //     // style: TextStyle(color: colorScheme.primaryVariant),
+              //   ),
+              // if (post.people != 100)
+              Text(
+                '${post.peopleJoin!.length}/${post.people}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(content),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              print('확인');
               Get.back();
             },
             child: Text('확인'),
