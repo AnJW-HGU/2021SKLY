@@ -1,7 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:kpostal/kpostal.dart';
+
 import 'package:skly/controller/postController.dart';
 import 'package:skly/post/searchPlace.dart';
 
@@ -114,44 +115,43 @@ class _AddPostPageState extends State<AddPostPage> {
                             color: colorScheme.primary,
                           )),
                     ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    // // 배달 장소
+                    // TextFormField(
+                    //   controller: _postController.placeTextEditing,
+                    //   decoration: InputDecoration(
+                    //     enabledBorder: UnderlineInputBorder(
+                    //       borderSide: BorderSide(
+                    //           color: colorScheme.onSurface, width: 1),
+                    //     ),
+                    //     focusedBorder: UnderlineInputBorder(
+                    //       borderSide: BorderSide(
+                    //           color: colorScheme.secondary, width: 2),
+                    //     ),
+                    //     border: UnderlineInputBorder(),
+                    //     hintText: '배달 장소를 적어주세요',
+                    //     hintStyle: TextStyle(
+                    //       fontSize: 15,
+                    //       color: colorScheme.primary,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
-                      height: 10,
-                    ),
-                    // 배달 장소
-                    TextFormField(
-                      controller: _postController.placeTextEditing,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: colorScheme.onSurface, width: 1),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: colorScheme.secondary, width: 2),
-                        ),
-                        border: UnderlineInputBorder(),
-                        hintText: '배달 장소를 적어주세요',
-                        hintStyle: TextStyle(
-                          fontSize: 15,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Get.to(SearchPlacePage());
-                        _postController.isPickPlace = !_postController.isPickPlace;
-                        _postController.update();
+                      onTap: () async {
+                        Kpostal result = await Navigator.push(context, MaterialPageRoute(builder: (_) => KpostalView()));
+                        _postController.placePicker(context, result);
                       },
                       child: Container(
                         height: 40,
                         child: Center(
                           child: _postController.isPickPlace
                               ? Text(
-                                  '${_postController.placeTextEditing.text}',
+                                  '${_postController.address}',
                                   style: TextStyle(
                                       fontSize: 15, color: colorScheme.primary),
                                 )
@@ -169,7 +169,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     // 주문시간 선택
                     GestureDetector(
@@ -199,7 +199,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     // 최대 인원 수 선택
                     Container(
@@ -232,7 +232,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     // 모집글 내용
                     TextFormField(
