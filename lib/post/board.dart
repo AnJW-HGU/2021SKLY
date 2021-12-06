@@ -42,11 +42,11 @@ class BoardPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '전체'),
+                        _buildCategory(context, '한식'),
+                        _buildCategory(context, '분식'),
+                        _buildCategory(context, '카페'),
+                        _buildCategory(context, '일식'),
                       ],
                     ),
                     SizedBox(
@@ -56,10 +56,10 @@ class BoardPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
-                        _buildCategory(context, '치킨'),
+                        _buildCategory(context, '피자'),
+                        _buildCategory(context, '양식'),
+                        _buildCategory(context, '중식'),
+                        _buildCategory(context, '버거'),
                       ],
                     ),
                   ],
@@ -126,6 +126,7 @@ class BoardPage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
+        _postsController.changeCategory(category: category);
         print('a');
       },
       child: Padding(
@@ -152,7 +153,14 @@ class BoardPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('dialog 띄우기');
-        _postDialog(context, post);
+        if (post.userId != _userController.user.id) {
+          if (!post.peopleJoin!.containguts(_userController.user.id)) {
+            _postDialog(context, post);
+          }
+          else {
+            _inPostDialog(context, post);
+          }
+        }
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
@@ -333,6 +341,53 @@ class BoardPage extends StatelessWidget {
               print('확인');
               _postsController.joinPost(
                   postId: post.id!, userId: _userController.user.id!);
+              Get.back();
+            },
+            child: Text('확인'),
+          ),
+        ]);
+  }
+
+  Future<dynamic> _inPostDialog(BuildContext context, Post post) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Get.defaultDialog(
+        title: '[${post.store!}]',
+        content: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('${post.place!}'),
+              SizedBox(
+                height: 10,
+              ),
+              Text('${post.content!}'),
+              Text(
+                '주문 시간: ${DateFormat('MM.dd kk:mm').format((post.closeTime)!.toDate())}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+              // if (post.people == 100)
+              //   Text(
+              //     '없음',
+              //     // style: TextStyle(color: colorScheme.primaryVariant),
+              //   ),
+              // if (post.people != 100)
+              Text(
+                '${post.peopleJoin!.length}/${post.people}',
+                // style: TextStyle(color: colorScheme.primaryVariant),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text('이미 모집글에 참여하셨습니다.'),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              print('확인');
               Get.back();
             },
             child: Text('확인'),
