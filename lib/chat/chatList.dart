@@ -17,12 +17,18 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('TestChatRoom')),
+        title: Center(child: Text('내가 속한 채팅방')),
         backgroundColor: colorScheme.primary,
       ),
       body: GetBuilder<ChatListController>(
