@@ -107,7 +107,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     await FirebaseFirestore.instance
                         .collection('Post')
                         .doc(widget.docId)
-                        .update({'peopleJoin': peopleJoin});
+                        .update({
+                      'userId': peopleJoin[0],
+                      'peopleJoin': peopleJoin,
+                      'people': FieldValue.increment(-1)
+                    });
+                    widget.chatRoomController.getOut();
                     //_chatListController.setTile(widget.index);
                     Get.offAll(HomePage());
                   },

@@ -15,6 +15,8 @@ class ChatRoomController extends GetxController {
   List<chatPageUserTile> tiles = [];
   String? currentRoomId;
   Post? post;
+  String? admin;
+  int? joinedPersonNum;
 
   getTiles() {
     return tiles;
@@ -40,6 +42,22 @@ class ChatRoomController extends GetxController {
     return messages;
   }
 
+  getOut() {
+    if (joinedPersonNum == 1) {
+      FirebaseFirestore.instance
+          .collection('Post')
+          .doc(currentRoomId)
+          .collection('message')
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          element.reference.delete();
+        });
+      });
+      FirebaseFirestore.instance.collection('Post').doc(currentRoomId).delete();
+    }
+  }
+
   init() async {
     await Firebase.initializeApp();
     FirebaseFirestore.instance
@@ -50,6 +68,7 @@ class ChatRoomController extends GetxController {
       usersString.clear();
       usersString = await event.get('peopleJoin');
       String admin = await event.data()!['userId'];
+      joinedPersonNum = usersString.length;
       tiles.clear();
       FirebaseFirestore.instance
           .collection('User')
@@ -75,6 +94,13 @@ class ChatRoomController extends GetxController {
         update();
       });
     });*/
+    FirebaseFirestore.instance
+        .collection('Post')
+        .doc(currentRoomId)
+        .snapshots()
+        .listen((event) {
+      admin = event.data()!['userId'];
+    });
     FirebaseFirestore.instance
         .collection('Post')
         .doc(currentRoomId)
