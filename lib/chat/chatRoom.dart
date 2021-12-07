@@ -11,6 +11,7 @@ import './googlemapTest.dart';
 import 'package:skly/widget/chatPageUserTile.dart';
 import 'package:skly/model/post.dart';
 import 'package:skly/controller/chatListController.dart';
+import 'package:clipboard/clipboard.dart';
 
 class ChatRoomPage extends StatefulWidget {
   String? docId;

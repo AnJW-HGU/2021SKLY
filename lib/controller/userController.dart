@@ -13,4 +13,13 @@ class UserController extends GetxController {
     user = await UserRepository().getUser();
     update();
   }
+
+  Future<void> updateAccount(String account) async {
+    await FirebaseFirestore.instance
+        .collection('User')
+        .doc(user.id)
+        .update({'account': account});
+    user.account = account;
+    update();
+  }
 }

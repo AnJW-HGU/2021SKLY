@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skly/controller/loginController.dart';
+import 'package:skly/controller/userController.dart';
 
 class MyProfilePage extends StatefulWidget {
   @override
@@ -10,31 +12,16 @@ class MyProfilePage extends StatefulWidget {
 
 class _MyProfilePageState extends State<MyProfilePage> {
   bool isEditing = false;
+  bool accountEditing = false;
   TextEditingController? _controller = TextEditingController(
       text: FirebaseAuth.instance.currentUser!.displayName);
+  UserController userController = Get.put(UserController());
   Widget myName = Text(
     '${FirebaseAuth.instance.currentUser!.displayName}',
     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
   );
 
   LoginController _loginController = Get.put(LoginController());
-
-  /* Widget userInfo() {
-    return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('User')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            child:
-          );
-        });
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +40,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
               onPressed: () {
                 _loginController.signOutWithGoogle();
               },
-              icon: Icon(Icons.exit_to_app, color: colorScheme.surface,))
+              icon: Icon(
+                Icons.exit_to_app,
+                color: colorScheme.surface,
+              ))
         ],
       ),
       body: SafeArea(
@@ -129,6 +119,61 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         SizedBox(
                           height: 20,
                         ),
+                        GetBuilder<UserController>(builder: (_) {
+                          String? account = userController.user.account;
+                          TextEditingController? _accountController =
+                              TextEditingController(
+                                  text: userController.user.account);
+                          return accountEditing == false
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                      Text(account!),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              accountEditing = true;
+                                            });
+                                          },
+                                          child: Text('Account Change'))
+                                    ])
+                              : Column(
+                                  children: [
+                                    TextField(
+                                      controller: _accountController,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              setState(() {
+                                                accountEditing = false;
+                                              });
+                                            },
+                                            child: Text('Cancel')),
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              var result =
+                                                  _accountController!.text;
+                                              _accountController =
+                                                  TextEditingController(
+                                                text: _accountController?.text,
+                                              );
+                                              setState(() {
+                                                accountEditing = false;
+                                                print(_accountController?.text);
+                                              });
+                                              userController.updateAccount(
+                                                  _accountController!.text);
+                                            },
+                                            child: Text('Save'))
+                                      ],
+                                    ),
+                                  ],
+                                );
+                        }),
                         SizedBox(
                           height: 8,
                         ),
