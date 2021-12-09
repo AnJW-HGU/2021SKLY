@@ -24,11 +24,11 @@ class UserRepository {
     });
     print("Repository:" + joiningCollection.toString());
     UserModel.User user = UserModel.User(
-        id: doc['uid'],
-        name: doc['name'],
-        email: doc['email'],
-        joining: joiningCollection,
-        account: doc['account']);
+      id: doc['uid'],
+      name: doc['name'],
+      email: doc['email'],
+      joining: joiningCollection,
+    );
     return user;
   }
 

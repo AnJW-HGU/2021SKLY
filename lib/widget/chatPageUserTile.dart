@@ -23,16 +23,26 @@ class chatPageUserTile extends StatelessWidget {
                 .doc(user.id)
                 .get()
                 .then((value) {
-              String account;
+              String? account;
               account = value.data()!['account'];
-              FlutterClipboard.copy(account);
-              Fluttertoast.showToast(
-                  msg: "클립보드에 복사됨",
-                  toastLength: Toast.LENGTH_SHORT,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.grey,
-                  textColor: Colors.white,
-                  fontSize: 16.0);
+              if (value.data()!['account'] == null) {
+                Fluttertoast.showToast(
+                    msg: "방장의 계좌번호가 없습니다.",
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                FlutterClipboard.copy(account!);
+                Fluttertoast.showToast(
+                    msg: "클립보드에 복사됨",
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
             });
           });
     } else {

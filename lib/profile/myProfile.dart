@@ -129,7 +129,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                      Text(account!),
+                                      if (account == null)
+                                        Text('계좌번호를 입력해주세요!')
+                                      else
+                                        Text(account),
                                       ElevatedButton(
                                           onPressed: () {
                                             setState(() {
@@ -141,6 +144,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               : Column(
                                   children: [
                                     TextField(
+                                      decoration: InputDecoration(
+                                          labelText: '은행이름 + 계좌번호'),
                                       controller: _accountController,
                                     ),
                                     Row(
