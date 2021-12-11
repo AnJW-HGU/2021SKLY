@@ -24,11 +24,11 @@ class UserRepository {
     });
     print("Repository:" + joiningCollection.toString());
     UserModel.User user = UserModel.User(
-      id: doc['uid'],
-      name: doc['name'],
-      email: doc['email'],
-      joining: joiningCollection,
-    );
+        id: doc['uid'],
+        name: doc['name'],
+        email: doc['email'],
+        joining: joiningCollection,
+        account: doc['account']);
     return user;
   }
 
@@ -52,7 +52,12 @@ class UserRepository {
   }
 
   Future<void> deletePost({required String postId}) async {
-    await _firestore.collection('User').doc(_auth.currentUser!.uid).collection('joining').doc(postId).delete();
+    await _firestore
+        .collection('User')
+        .doc(_auth.currentUser!.uid)
+        .collection('joining')
+        .doc(postId)
+        .delete();
   }
 
   Future<void> addJoiningPost({required String postId}) async {
