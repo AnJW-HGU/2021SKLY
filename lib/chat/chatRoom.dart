@@ -11,7 +11,6 @@ import './googlemapTest.dart';
 import 'package:skly/widget/chatPageUserTile.dart';
 import 'package:skly/model/post.dart';
 import 'package:skly/controller/chatListController.dart';
-import 'package:clipboard/clipboard.dart';
 
 class ChatRoomPage extends StatefulWidget {
   String? docId;
@@ -105,15 +104,32 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         .delete();
                     List<String>? peopleJoin = widget.post!.peopleJoin;
                     peopleJoin!.remove(FirebaseAuth.instance.currentUser!.uid);
-                    await FirebaseFirestore.instance
-                        .collection('Post')
-                        .doc(widget.docId)
-                        .update({
-                      'userId': peopleJoin[0],
-                      'peopleJoin': peopleJoin,
-                      'people': FieldValue.increment(-1)
-                    });
-                    widget.chatRoomController.getOut();
+
+                    if (peopleJoin.length == 0) {
+                      FirebaseFirestore.instance
+                          .collection('Post')
+                          .doc(widget.docId)
+                          .collection('message')
+                          .get()
+                          .then((value) {
+                        value.docs.forEach((element) {
+                          element.reference.delete();
+                        });
+                      });
+                      FirebaseFirestore.instance
+                          .collection('Post')
+                          .doc(widget.docId)
+                          .delete();
+                    } else {
+                      await FirebaseFirestore.instance
+                          .collection('Post')
+                          .doc(widget.docId)
+                          .update({
+                        'userId': peopleJoin[0],
+                        'peopleJoin': peopleJoin,
+                      });
+                    }
+
                     //_chatListController.setTile(widget.index);
                     Get.offAll(HomePage());
                   },

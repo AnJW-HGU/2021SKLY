@@ -42,22 +42,6 @@ class ChatRoomController extends GetxController {
     return messages;
   }
 
-  getOut() {
-    if (joinedPersonNum == 1) {
-      FirebaseFirestore.instance
-          .collection('Post')
-          .doc(currentRoomId)
-          .collection('message')
-          .get()
-          .then((value) {
-        value.docs.forEach((element) {
-          element.reference.delete();
-        });
-      });
-      FirebaseFirestore.instance.collection('Post').doc(currentRoomId).delete();
-    }
-  }
-
   init() async {
     FirebaseFirestore.instance
         .collection('Post')
