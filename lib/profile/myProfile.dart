@@ -129,17 +129,29 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                      if (account == null)
-                                        Text('계좌번호를 입력해주세요!')
+                                      if (account == null || account == '')
+                                        Text(
+                                          '계좌번호를 입력해주세요!',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       else
-                                        Text(account),
+                                        Text(
+                                          account,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ElevatedButton(
                                           onPressed: () {
                                             setState(() {
                                               accountEditing = true;
                                             });
                                           },
-                                          child: Text('Account Change'))
+                                          child: Text(
+                                            'Account Change',
+                                          ))
                                     ])
                               : Column(
                                   children: [

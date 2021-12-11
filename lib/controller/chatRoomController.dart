@@ -24,7 +24,7 @@ class ChatRoomController extends GetxController {
 
   ChatRoomController(Post? currentPost) {
     post = currentPost;
-    init();
+    // init();
     update();
   }
 
@@ -49,7 +49,7 @@ class ChatRoomController extends GetxController {
         .snapshots()
         .listen((event) async {
       usersString.clear();
-      usersString = await event.get('peopleJoin');
+      usersString = await event.data()!['peopleJoin'].cast<List<String>>();
       String admin = await event.data()!['userId'];
       joinedPersonNum = usersString.length;
       tiles.clear();
