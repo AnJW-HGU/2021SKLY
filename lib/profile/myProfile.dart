@@ -137,14 +137,21 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                               fontWeight: FontWeight.bold),
                                         )
                                       else
-                                        Text(account),
+                                        Text(
+                                          account,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ElevatedButton(
                                           onPressed: () {
                                             setState(() {
                                               accountEditing = true;
                                             });
                                           },
-                                          child: Text('Account Change'))
+                                          child: Text(
+                                            'Account Change',
+                                          ))
                                     ])
                               : Column(
                                   children: [
