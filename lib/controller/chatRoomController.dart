@@ -49,7 +49,7 @@ class ChatRoomController extends GetxController {
         .snapshots()
         .listen((event) async {
       usersString.clear();
-      usersString = await event.data()!['peopleJoin'].cast<List<String>>();
+      usersString = await event.data()!['peopleJoin'].cast<String>();
       String admin = await event.data()!['userId'];
       joinedPersonNum = usersString.length;
       tiles.clear();
