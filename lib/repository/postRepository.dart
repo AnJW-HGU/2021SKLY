@@ -14,6 +14,16 @@ class PostRepository {
   }
 
   Future<void> deletePost({required String postId}) async {
+    await _firestore
+        .collection('Post')
+        .doc(postId)
+        .collection('message')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        element.reference.delete();
+      });
+    });
     await _firestore.collection('Post').doc(postId).delete();
   }
 
