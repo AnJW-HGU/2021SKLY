@@ -43,6 +43,7 @@ class PostsController extends GetxController {
           TextButton(
               onPressed: () {
                 PostRepository().deletePost(postId: postId);
+                UserRepository().deletePost(postId: postId);
                 Get.back();
               },
               child: Text('삭제')),
