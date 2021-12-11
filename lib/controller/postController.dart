@@ -5,6 +5,7 @@ import 'package:kpostal/kpostal.dart';
 import 'package:skly/model/post.dart';
 import 'package:skly/controller/userController.dart';
 import 'package:skly/repository/postRepository.dart';
+import 'package:skly/repository/userRepository.dart';
 
 class PostController extends GetxController {
   String category = '한식';

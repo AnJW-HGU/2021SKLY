@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:skly/model/post.dart';
+import 'package:skly/repository/userRepository.dart';
 
 class PostRepository {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -9,6 +10,7 @@ class PostRepository {
     post = post.copyWith(id: pid);
     DocumentReference reference = _firestore.collection('Post').doc(post.id);
     await reference.set(post.toMap());
+    await UserRepository().addJoiningPost(postId: pid);
   }
 
   Future<void> deletePost({required String postId}) async {
