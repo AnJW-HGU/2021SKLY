@@ -129,8 +129,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                      if (account == null)
-                                        Text('계좌번호를 입력해주세요!')
+                                      if (account == null || account == '')
+                                        Text(
+                                          '계좌번호를 입력해주세요!',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       else
                                         Text(account),
                                       ElevatedButton(

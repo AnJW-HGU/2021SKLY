@@ -18,9 +18,11 @@ class UserRepository {
         .collection('joining')
         .get()
         .then((value) {
-      value.docs.forEach((document) {
-        joiningCollection.add(document.data()['joiningChat']);
-      });
+      if (value.docs.isNotEmpty) {
+        value.docs.forEach((document) {
+          joiningCollection.add(document.data()['joiningChat']);
+        });
+      }
     });
     print("Repository:" + joiningCollection.toString());
     UserModel.User user = UserModel.User(
@@ -46,6 +48,7 @@ class UserRepository {
           'email': _auth.currentUser!.email,
           'name': _auth.currentUser!.displayName,
           'uid': _auth.currentUser!.uid,
+          'account': '',
         });
       }
     });
