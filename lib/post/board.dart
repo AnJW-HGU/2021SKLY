@@ -44,11 +44,11 @@ class BoardPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildCategory(context, '전체'),
-                            _buildCategory(context, '한식'),
-                            _buildCategory(context, '분식'),
-                            _buildCategory(context, '카페'),
-                            _buildCategory(context, '일식'),
+                            _buildCategory(context, '전체', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fall.png?alt=media&token=59140804-0fcd-4139-b563-711c7ae9a9bb'),
+                            _buildCategory(context, '한식', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fbibimbap.png?alt=media&token=6e6b121f-fa07-427c-b769-555e37d97776'),
+                            _buildCategory(context, '분식', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fdduck.png?alt=media&token=dff61776-77f9-4f0a-829d-952d59588de3'),
+                            _buildCategory(context, '카페', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fdounut.png?alt=media&token=83e44dc2-8a1c-4e40-b2ba-411bf21a48aa'),
+                            _buildCategory(context, '일식', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fsusi.png?alt=media&token=7ebe5d51-6ad9-4750-9a2d-12c8ccd0e3b9'),
                           ],
                         ),
                         SizedBox(
@@ -57,11 +57,11 @@ class BoardPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildCategory(context, '치킨'),
-                            _buildCategory(context, '피자'),
-                            _buildCategory(context, '양식'),
-                            _buildCategory(context, '중식'),
-                            _buildCategory(context, '버거'),
+                            _buildCategory(context, '치킨', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fchicken.png?alt=media&token=13bb6641-04ac-4ccc-a637-40008d4870f9'),
+                            _buildCategory(context, '피자', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fpizza.png?alt=media&token=e0945ce9-ec71-4b5a-84b5-4880f2754c94'),
+                            _buildCategory(context, '양식', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fpasta.png?alt=media&token=a21ad58f-9276-4b61-8b68-e316035f0d5e'),
+                            _buildCategory(context, '중식', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fblack.png?alt=media&token=e155274a-0eff-4f31-879f-fdc23ff45287'),
+                            _buildCategory(context, '버거', 'https://firebasestorage.googleapis.com/v0/b/skly-715e2.appspot.com/o/category%2Fburger.png?alt=media&token=1bf60f0d-7909-455f-a497-77de04f0e55b'),
                           ],
                         ),
                       ],
@@ -140,7 +140,7 @@ class BoardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCategory(BuildContext context, String category) {
+  Widget _buildCategory(BuildContext context, String category, String storageLink) {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: () {
@@ -153,7 +153,11 @@ class BoardPage extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 25,
-              backgroundColor: colorScheme.surface,
+              backgroundColor: colorScheme.primary,
+              child: Image.network(
+                storageLink,
+                fit: BoxFit.fill,
+              ),
             ),
             Text(
               '$category',
