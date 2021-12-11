@@ -99,6 +99,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                             FirebaseAuth.instance.currentUser!
                                                 .updateDisplayName(
                                                     _controller!.text);
+                                            FirebaseFirestore.instance
+                                                .collection('User')
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .update({
+                                              'name': _controller!.text
+                                            });
                                             setState(() {
                                               myName = Text(
                                                 '${_controller!.text}',
