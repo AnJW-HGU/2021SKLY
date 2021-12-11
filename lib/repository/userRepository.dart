@@ -51,6 +51,10 @@ class UserRepository {
     });
   }
 
+  Future<void> deletePost({required String postId}) async {
+    await _firestore.collection('User').doc(_auth.currentUser!.uid).collection('joining').doc(postId).delete();
+  }
+
   Future<void> addJoiningPost({required String postId}) async {
     DocumentReference reference =
         _firestore.collection('User').doc(_auth.currentUser!.uid);
